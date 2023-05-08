@@ -74,7 +74,7 @@ public class ScriptService {
         return scriptResponse.scriptCreateSuccess(script);
     }
 
-    /*
+
     @Transactional
     public ResponseEntity<?> deleteScript(Long id) {
         Script toDeleteScript=em.find(Script.class, id);
@@ -88,8 +88,7 @@ public class ScriptService {
 
         return scriptResponse.scriptDeleteSuccess(toDeleteScript);
     }
-    
-     */
+
 
     @Transactional(readOnly = true)
     public ResponseEntity<?> getScriptContents(Long scriptId){

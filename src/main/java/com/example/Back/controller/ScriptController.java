@@ -34,12 +34,10 @@ public class ScriptController {
         return scriptService.getScriptContents(id);
     }
 
-    /*
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteScript(@PathVariable Long id) {
         return scriptService.deleteScript(id);
     }
 
-     */
 
 }
