@@ -4,6 +4,6 @@ import com.example.Back.domain.AssessmentQuestion;
 import com.example.Back.repository.custom.AssessmentQuestionRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AssessmentQuestionRepositoryRepository extends JpaRepository<AssessmentQuestion, Long> , AssessmentQuestionRepositoryCustom {
+public interface AssessmentQuestionRepository extends JpaRepository<AssessmentQuestion, Long> , AssessmentQuestionRepositoryCustom {
 
 }

@@ -4,9 +4,8 @@ import com.example.Back.domain.AssessmentQuestion;
 import com.example.Back.dto.request.AssessmentQuestionReq;
 import com.example.Back.dto.response.AssessmentQuestionRes;
 import com.example.Back.dto.response.ResponseBody;
-import com.example.Back.repository.AssessmentQuestionRepositoryRepository;
+import com.example.Back.repository.AssessmentQuestionRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class AssessmentQuestionService {
 
-    private final AssessmentQuestionRepositoryRepository assessmentQuestionRepository;
+    private final AssessmentQuestionRepository assessmentQuestionRepository;
 
     public ResponseBody<AssessmentQuestionRes.getQuestion> getQuestion() {
 

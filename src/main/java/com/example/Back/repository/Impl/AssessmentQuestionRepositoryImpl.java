@@ -8,11 +8,11 @@ import java.util.List;
 
 import static com.example.Back.domain.QAssessmentQuestion.assessmentQuestion;
 
-public class AssessmentQuestionRepositoryRepositoryImpl implements AssessmentQuestionRepositoryCustom {
+public class AssessmentQuestionRepositoryImpl implements AssessmentQuestionRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public AssessmentQuestionRepositoryRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
+    public AssessmentQuestionRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
