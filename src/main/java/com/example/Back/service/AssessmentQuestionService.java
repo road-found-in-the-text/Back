@@ -8,6 +8,7 @@ import com.example.Back.repository.AssessmentQuestionRepositoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AssessmentQuestionService {
 
     private final AssessmentQuestionRepositoryRepository assessmentQuestionRepository;
@@ -30,6 +32,7 @@ public class AssessmentQuestionService {
         ).collect(Collectors.toList())));
     }
 
+    @Transactional
     public ResponseBody<String> createQuestion(AssessmentQuestionReq.createQuestion request) {
         List<AssessmentQuestionReq.QuestionInfo> questionInfos = request.getQuestionInfos();
         List<AssessmentQuestion> assessmentQuestionList = new ArrayList<>();
@@ -48,7 +51,7 @@ public class AssessmentQuestionService {
         return new ResponseBody("db에 정상적으로 저장되었습니다.");
     }
 
-
+    @Transactional
     public ResponseBody<String> deleteQuestion() {
         assessmentQuestionRepository.deleteAll();
         return new ResponseBody("삭제 완료되었습니다.");
