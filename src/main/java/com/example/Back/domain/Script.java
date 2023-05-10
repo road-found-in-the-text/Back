@@ -39,6 +39,7 @@ public class Script extends BaseEntity {
     @Column
     private boolean deleted;
 
+    @Builder.Default
     @OneToMany(mappedBy = "script", cascade = CascadeType.PERSIST )
     private List<Paragraph> paragraphs = new ArrayList<>();
 
