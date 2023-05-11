@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: umc3_teamproject
+  datasource:
+    url: jdbc:mysql://localhost:3306/textroad?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: root
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: true
+
+springdoc:
+  swagger-ui:
+    path: docs
+  show-actuator: true
