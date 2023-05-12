@@ -1,8 +1,13 @@
 package com.example.Back.domain;
 
-import jakarta.persistence.*;
-import lombok.Builder;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+
+@Getter @Setter @Entity
 public class Member{
 
     @Id
@@ -41,4 +46,9 @@ public class Member{
 //    @OneToMany(mappedBy = "memberId", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 //    private List<RecordInterview> record_interview;
 
+    @Builder
+    public Member(String socialId, LoginType loginType) {
+        this.socialId = socialId;
+        this.loginType = loginType;
+    }
 }
