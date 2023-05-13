@@ -93,7 +93,7 @@ public class AppleService implements ProxyRepository {
 
         return Member.builder()
                 .socialId(String.valueOf(appleSocialId))
-                .loginType(LoginType.Apple)
+                .loginType(LoginType.APPLE)
                 .build();
     }
 

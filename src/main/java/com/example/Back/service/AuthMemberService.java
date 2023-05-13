@@ -28,7 +28,7 @@ public class AuthMemberService {
 
     public AuthRes signUpOrLogIn(AuthReq authRequest) throws NoSuchAlgorithmException {
         Member member;
-        if (authRequest.getLoginType() == LoginType.Kakao) {
+        if (authRequest.getLoginType() == LoginType.KAKAO) {
             member = getKakaoProfile(authRequest.getAccessToken());
         } else {
             member = getAppleProfile(authRequest.getAccessToken());
