@@ -38,7 +38,7 @@ public class KakaoService implements ProxyRepository {
 
         return Member.builder()
                 .socialId(String.valueOf(kakaoRes.getId()))
-                .loginType(LoginType.Kakao)
+                .loginType(LoginType.KAKAO)
                 .build();
     }
 }
