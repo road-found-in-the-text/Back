@@ -23,4 +23,12 @@ public class AssessmentQuestionRepositoryImpl implements AssessmentQuestionRepos
                 .orderBy(assessmentQuestion.sequence.asc(),assessmentQuestion.sub_sequence.asc())
                 .fetch();
     }
+
+    @Override
+    public List<AssessmentQuestion> findAllSub_Sequence0() {
+        return jpaQueryFactory.selectFrom(assessmentQuestion)
+                .where(assessmentQuestion.sub_sequence.eq(0))
+                .orderBy(assessmentQuestion.sequence.asc())
+                .fetch();
+    }
 }

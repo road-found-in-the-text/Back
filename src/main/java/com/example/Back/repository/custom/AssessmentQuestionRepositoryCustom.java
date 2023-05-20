@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface AssessmentQuestionRepositoryCustom {
     List<AssessmentQuestion> findAllOrderBySequenceAndSubSequence();
+
+    List<AssessmentQuestion> findAllSub_Sequence0();
 }

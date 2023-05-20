@@ -2,6 +2,7 @@ package com.example.Back.domain;
 
 import lombok.*;
 import org.hibernate.annotations.Where;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
@@ -11,8 +12,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "assessment_question")
+@Table(name = "assessment_question_score")
 @Where(clause = "deleted = false")
+@EntityListeners(value = {AuditingEntityListener.class})
 public class AssessmentQuestionScore extends BaseEntity{
 
     @Id
@@ -28,5 +30,10 @@ public class AssessmentQuestionScore extends BaseEntity{
     @JoinColumn(name = "question_id")
     private AssessmentQuestion assessmentQuestion;
 
-    private Integer score;
+    private Double score;
+
+    private Integer score_count;
+
+    private boolean deleted;
+
 }

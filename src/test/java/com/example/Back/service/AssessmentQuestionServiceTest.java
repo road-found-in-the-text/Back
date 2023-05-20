@@ -2,13 +2,12 @@ package com.example.Back.service;
 
 import com.example.Back.domain.AssessmentQuestion;
 import com.example.Back.repository.AssessmentQuestionRepository;
-import jakarta.annotation.security.RunAs;
-import jakarta.transaction.Transactional;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
