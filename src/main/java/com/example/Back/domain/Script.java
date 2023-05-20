@@ -36,6 +36,10 @@ public class Script extends BaseEntity {
     @Column
     private int cnt;
 
+    // 몇 번 평가를 수행했는지 측정하기 위한 count
+    @Column
+    private Integer score_count;
+
     @Column
     private boolean deleted;
 
@@ -43,4 +47,7 @@ public class Script extends BaseEntity {
     @OneToMany(mappedBy = "script", cascade = CascadeType.PERSIST )
     private List<Paragraph> paragraphs = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "script", cascade = CascadeType.PERSIST )
+    private List<AssessmentQuestionScore> assessmentQuestionScoreList = new ArrayList<>();
 }
