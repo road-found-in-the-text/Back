@@ -1,11 +1,11 @@
 package com.example.Back.dto.request;
 
 import com.example.Back.dto.response.AssessmentQuestionRes;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class AssessmentQuestionReq {

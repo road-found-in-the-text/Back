@@ -8,7 +8,6 @@ import com.example.Back.dto.response.ParagraphRes;
 import com.example.Back.dto.response.ScriptResponseDto;
 import com.example.Back.repository.ParagraphRepository;
 import com.example.Back.repository.ScriptRepository;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 

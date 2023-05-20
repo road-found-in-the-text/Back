@@ -2,9 +2,10 @@ package com.example.Back.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
+
+import javax.persistence.*;
 
 @Builder
 @Getter

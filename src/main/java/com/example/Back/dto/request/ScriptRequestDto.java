@@ -1,10 +1,10 @@
 package com.example.Back.dto.request;
 
 import com.example.Back.dto.response.ParagraphRes;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 
 @Component

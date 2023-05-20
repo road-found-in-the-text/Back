@@ -1,9 +1,9 @@
 package com.example.Back.domain;
 
-import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
