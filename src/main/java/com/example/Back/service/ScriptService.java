@@ -1,16 +1,20 @@
 package com.example.Back.service;
 
+import com.example.Back.domain.Member;
 import com.example.Back.domain.Paragraph;
 import com.example.Back.domain.Script;
 import com.example.Back.dto.request.ParagraphReq;
 import com.example.Back.dto.request.ScriptRequestDto;
 import com.example.Back.dto.response.ParagraphRes;
 import com.example.Back.dto.response.ScriptResponseDto;
+import com.example.Back.exception.ResponseTemplate;
 import com.example.Back.repository.ParagraphRepository;
 import com.example.Back.repository.ScriptRepository;
+import com.example.Back.repository.SocialMemberRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+import static com.example.Back.exception.ResponseTemplateStatus.USER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +39,8 @@ public class ScriptService {
     private final ParagraphRepository paragraphRepository;
 
     private final ScriptResponseDto scriptResponse;
+
+    private final SocialMemberRepository memberRepository;
 
 
     // private final MemoService memoService;
@@ -46,32 +56,39 @@ public class ScriptService {
         int cnt_list = contents.size();
 
         List<Paragraph> paragraphs_list = new ArrayList<Paragraph>();
+        Optional<Member> cur_member = memberRepository.findBySocialId(script1.getMemberId());
 
-        Script script=Script.builder()
-                // .memberId(script_member)
-                .title(script1.getScript_title())
-                .cnt(cnt_list)
-                .deleted(false)
-                .build();
+        if (cur_member.isPresent()) {
+            Member member = cur_member.get();
 
-        for (int idx=1; idx<=cnt_list; idx++) {
-            ParagraphReq paragraph_info = contents.get(idx-1);
-            Paragraph paragraph = Paragraph.builder()
-                    .script(script)
-                    .idx(idx)
-                    .title(paragraph_info.getParagraph_title())
-                    .contents(paragraph_info.getParagraph_content())
+            Script script=Script.builder()
+                    .memberId(member)
+                    .title(script1.getScript_title())
+                    .cnt(cnt_list)
                     .deleted(false)
                     .build();
-            paragraphRepository.save(paragraph);
 
-            paragraphs_list.add(paragraph);
+            for (int idx=1; idx<=cnt_list; idx++) {
+                ParagraphReq paragraph_info = contents.get(idx-1);
+                Paragraph paragraph = Paragraph.builder()
+                        .script(script)
+                        .idx(idx)
+                        .title(paragraph_info.getParagraph_title())
+                        .contents(paragraph_info.getParagraph_content())
+                        .deleted(false)
+                        .build();
+                paragraphRepository.save(paragraph);
+
+                paragraphs_list.add(paragraph);
+            }
+
+            script.setParagraphs(paragraphs_list);
+            scriptRepository.save(script);
+
+            return scriptResponse.scriptCreateSuccess(script);
         }
 
-        script.setParagraphs(paragraphs_list);
-        scriptRepository.save(script);
-
-        return scriptResponse.scriptCreateSuccess(script);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseTemplate<>(USER_NOT_FOUND));
     }
 
 

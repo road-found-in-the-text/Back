@@ -20,7 +20,7 @@ public class ScriptResponseDto {
 
         private String result;
 
-        private Long memberId;
+        // private Long memberId;
         private Long script_id;
         private String message;
 
@@ -32,7 +32,7 @@ public class ScriptResponseDto {
 
         private String result;
 
-        private Long memberId;
+        // private Long memberId;
         private Long script_id;
 
         private String script_title;
@@ -82,10 +82,9 @@ public class ScriptResponseDto {
             contents.add(info);
         }
 
-
         ScriptBody body = ScriptBody.builder()
                 .result("success")
-                //.memberId(script.getMemberId().getId())
+                // .memberId(script.getMemberId().getId())
                 .script_id(script.getScriptId())
                 .script_title(script.getTitle())
                 .content_cnt(script.getCnt())
