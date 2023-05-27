@@ -20,6 +20,13 @@ public class AssessmentQuestionReq {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
+    public static class updateQuestion {
+        private List <QuestionInfo> questionInfos;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class QuestionInfo {
 
         @NotNull(message = "평가 항목의 순서를 적어주세요")

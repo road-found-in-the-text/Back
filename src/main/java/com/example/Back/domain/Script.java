@@ -1,6 +1,8 @@
 package com.example.Back.domain;
 
 import lombok.*;
+import net.bytebuddy.implementation.bind.annotation.Default;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -36,6 +38,11 @@ public class Script extends BaseEntity {
     @Column
     private int cnt;
 
+    // 몇 번 평가를 수행했는지 측정하기 위한 count
+    @Column
+    @ColumnDefault("0")
+    private Integer score_count;
+
     @Column
     private boolean deleted;
 
@@ -43,4 +50,7 @@ public class Script extends BaseEntity {
     @OneToMany(mappedBy = "script", cascade = CascadeType.PERSIST )
     private List<Paragraph> paragraphs = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "script", cascade = CascadeType.PERSIST )
+    private List<AssessmentQuestionScore> assessmentQuestionScoreList = new ArrayList<>();
 }

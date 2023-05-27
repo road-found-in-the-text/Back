@@ -17,10 +17,45 @@ public class AssessmentQuestionRepositoryImpl implements AssessmentQuestionRepos
     }
 
     @Override
+    public List<AssessmentQuestion> findByDeletedFalse() {
+        return jpaQueryFactory.selectFrom(assessmentQuestion)
+                .where(assessmentQuestion.deleted.eq(false))
+                .fetch();
+    }
+
+    @Override
     public List<AssessmentQuestion> findAllOrderBySequenceAndSubSequence() {
         return jpaQueryFactory
                 .selectFrom(assessmentQuestion)
+                .where(assessmentQuestion.deleted.eq(false))
                 .orderBy(assessmentQuestion.sequence.asc(),assessmentQuestion.sub_sequence.asc())
                 .fetch();
     }
+
+    @Override
+    public List<AssessmentQuestion> findAllSub_Sequence0() {
+        return jpaQueryFactory.selectFrom(assessmentQuestion)
+                .where(assessmentQuestion.sub_sequence.eq(0))
+                .orderBy(assessmentQuestion.sequence.asc())
+                .fetch();
+    }
+
+    @Override
+    public List<Long> findBySequenceAndSubSequence(Integer sequence, Integer sub_sequence) {
+        return jpaQueryFactory.select(assessmentQuestion.id)
+                .from(assessmentQuestion)
+                .where(assessmentQuestion.sequence.eq(sequence).and(assessmentQuestion.sub_sequence.eq(sub_sequence)).and(
+                        assessmentQuestion.deleted.eq(false)
+                ))
+                .fetch();
+    }
+
+    @Override
+    public List<Long> findAllId() {
+        return jpaQueryFactory.select(assessmentQuestion.id)
+                .from(assessmentQuestion)
+                .fetch();
+    }
+
+
 }
