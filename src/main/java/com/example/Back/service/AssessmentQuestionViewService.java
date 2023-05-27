@@ -7,6 +7,7 @@ import com.example.Back.domain.Script;
 import com.example.Back.dto.request.AssessmentQuestionScoreReq;
 import com.example.Back.dto.request.AssessmentQuestionViewReq;
 import com.example.Back.dto.response.AssessmentQuestionScoreRes;
+import com.example.Back.dto.response.AssessmentQuestionViewRes;
 import com.example.Back.dto.response.ResponseBody;
 import com.example.Back.exception.CustomException;
 import com.example.Back.exception.ErrorCode;
@@ -35,7 +36,6 @@ public class AssessmentQuestionViewService {
     private final ScriptRepository scriptRepository;
 
     private final AssessmentQuestionRepository assessmentQuestionRepository;
-    private final AssessmentQuestionScoreRepository assessmentQuestionScoreRepository;
     private final AssessmentQuestionViewRepository assessmentQuestionViewRepository;
 
     Script findScript(Long script_id){
@@ -106,5 +106,61 @@ public class AssessmentQuestionViewService {
                         )
                 ).collect(Collectors.toList())
         ));
+    }
+
+
+    public ResponseBody<AssessmentQuestionViewRes.getQuestionScore> getQuestionScore(Long script_id) {
+        Script findScript = findScript(script_id);
+
+        List<AssessmentQuestionView> beforeAssessmentQuestionViewList = assessmentQuestionViewRepository.findViewByScoreCount(findScript.getScore_count() - 1);
+        List<AssessmentQuestionView> currentAssessmentQuestionViewList = assessmentQuestionViewRepository.findViewByScoreCount(findScript.getScore_count());
+
+        Double all_score_avg;
+        Double all_score_ave_sum = 0.;
+        int count = 0;
+        for(AssessmentQuestionView assessmentQuestionView : currentAssessmentQuestionViewList){
+            all_score_ave_sum += assessmentQuestionView.getScore();
+            count++;
+        }
+
+        if(beforeAssessmentQuestionViewList.size()==0){
+            all_score_avg = all_score_ave_sum/count;
+            return new ResponseBody(new AssessmentQuestionViewRes.getQuestionScore(
+                    findScript.getScore_count(),all_score_avg,
+                    beforeAssessmentQuestionViewList.stream().map(
+                            assessmentQuestionView -> new AssessmentQuestionScoreRes.QuestionScore(
+                                    assessmentQuestionView.getSequence(),assessmentQuestionView.getQuestion_category(),
+                                    assessmentQuestionView.getScore()
+                            )
+                    ).collect(Collectors.toList())
+                    ,currentAssessmentQuestionViewList.stream().map(
+                    assessmentQuestionView -> new AssessmentQuestionScoreRes.QuestionScore(
+                            assessmentQuestionView.getSequence(),assessmentQuestionView.getQuestion_category(),
+                            assessmentQuestionView.getScore()
+                    )
+            ).collect(Collectors.toList())
+            ));
+        }else{
+            for(AssessmentQuestionView assessmentQuestionView : beforeAssessmentQuestionViewList){
+                all_score_ave_sum += assessmentQuestionView.getScore();
+                count++;
+            }
+            all_score_avg = all_score_ave_sum/count;
+            return new ResponseBody(new AssessmentQuestionViewRes.getQuestionScore(
+                    findScript.getScore_count(),all_score_avg,
+                    beforeAssessmentQuestionViewList.stream().map(
+                            assessmentQuestionView -> new AssessmentQuestionScoreRes.QuestionScore(
+                                    assessmentQuestionView.getSequence(),assessmentQuestionView.getQuestion_category(),
+                                    assessmentQuestionView.getScore()
+                            )
+                    ).collect(Collectors.toList())
+                    ,currentAssessmentQuestionViewList.stream().map(
+                    assessmentQuestionView -> new AssessmentQuestionScoreRes.QuestionScore(
+                            assessmentQuestionView.getSequence(),assessmentQuestionView.getQuestion_category(),
+                            assessmentQuestionView.getScore()
+                    )
+            ).collect(Collectors.toList())
+            ));
+        }
     }
 }

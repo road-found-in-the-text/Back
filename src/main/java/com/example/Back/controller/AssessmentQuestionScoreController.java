@@ -32,14 +32,6 @@ public class AssessmentQuestionScoreController {
     public ResponseBody<AssessmentQuestionScoreRes.getQuestionScore> createQuestionScore(
             @PathVariable(name = "script-id") Long script_id, @RequestBody AssessmentQuestionScoreReq.createQuestionScore request){
         return assessmentQuestionScoreService.createQuestionScore(script_id, request);
-//        return assessmentQuestionViewService.createQuestionView(script);
     }
-//
-//    @Operation(summary = "평가 항목 점수 db에 저장")
-//    @ApiResponse(description = "평가 항목에 대한 점수를 db에 저장하기")
-//    @GetMapping("")
-//    public ResponseBody<AssessmentQuestionScoreRes.getQuestionScore> getQuestionScore(
-//            @PathVariable(name = "script-id") Long script_id){
-//        return assessmentQuestionScoreService.getQuestionScore(script_id);
-//    }
+
 }
