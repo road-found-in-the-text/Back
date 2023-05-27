@@ -2,7 +2,6 @@ package com.example.Back.domain;
 
 import lombok.*;
 import org.hibernate.annotations.Where;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
@@ -12,10 +11,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "assessment_question_score")
+@Table(name = "assessment_question_view")
 @Where(clause = "deleted = false")
-@EntityListeners(value = {AuditingEntityListener.class})
-public class AssessmentQuestionScore extends BaseEntity{
+public class AssessmentQuestionView extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,18 +24,13 @@ public class AssessmentQuestionScore extends BaseEntity{
     @JoinColumn(name = "script_id")
     private Script script;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
-    private AssessmentQuestion assessmentQuestion;
-
     private Integer sequence;
 
-    private String question_name;
+    private String question_category;
 
-    private Integer score;
+    private Double score;
 
     private Integer score_count;
 
     private boolean deleted;
-
 }

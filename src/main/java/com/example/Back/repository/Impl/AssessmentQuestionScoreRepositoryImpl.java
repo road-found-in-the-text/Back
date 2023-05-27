@@ -2,6 +2,7 @@ package com.example.Back.repository.Impl;
 
 import com.example.Back.domain.AssessmentQuestionScore;
 import com.example.Back.domain.QAssessmentQuestionScore;
+import com.example.Back.dto.request.AssessmentQuestionViewReq;
 import com.example.Back.repository.custom.AssessmentQuestionScoreRepositoryCustom;
 //import com.example.Back.
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -26,4 +27,6 @@ public class AssessmentQuestionScoreRepositoryImpl implements AssessmentQuestion
                 .orderBy(assessmentQuestionScore.assessmentQuestion.sequence.asc())
                 .fetch();
     }
+
+
 }

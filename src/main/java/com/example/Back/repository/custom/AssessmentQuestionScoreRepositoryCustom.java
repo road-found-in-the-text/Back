@@ -7,4 +7,5 @@ import java.util.List;
 public interface AssessmentQuestionScoreRepositoryCustom {
 
     List<AssessmentQuestionScore> findScoresByScoreCount(Integer score_count);
+
 }

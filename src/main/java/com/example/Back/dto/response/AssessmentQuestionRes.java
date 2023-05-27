@@ -21,6 +21,7 @@ public class AssessmentQuestionRes {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class QuestionInfo {
+        private Long question_db_id;
         private Integer sequence;
         private Integer sub_sequence;
         private String question_name;

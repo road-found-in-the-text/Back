@@ -37,6 +37,13 @@ public class AssessmentQuestionController {
         return assessmentQuestionService.createQuestion(request);
     }
 
+    @Operation(summary = "평가 항목 수정")
+    @ApiResponse(description = "평가 항목 수정")
+    @PutMapping("")
+    public ResponseBody<AssessmentQuestionRes.getQuestion> updateQuestion(@Valid @RequestBody AssessmentQuestionReq.updateQuestion request){
+        return assessmentQuestionService.updateQuestion(request);
+    }
+
     @Operation(summary = "평가 항목 전체 삭제")
     @ApiResponse(description = "평가 항목 전체 삭제")
     @DeleteMapping("")

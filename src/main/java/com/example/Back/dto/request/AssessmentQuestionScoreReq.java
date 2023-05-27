@@ -20,7 +20,7 @@ public class AssessmentQuestionScoreReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class QuestionScore {
-        private Integer question_sequence;
+        private Long question_id;
         private Integer score;
     }
 }
