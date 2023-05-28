@@ -31,9 +31,10 @@ public class MemberController {
     @Operation(summary = "닉네임 변경", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<String> updateUserNickname (UpdateNickNameReq updateNickNameReq) {
         try {
+            String nickName = updateNickNameReq.getNickName();
             String memberId = tokenService.getSocialId();
-            authMemberService.updateNickName(memberId, updateNickNameReq.getNickName());
-            return ResponseEntity.ok("닉네임이 성공적으로 업데이트되었습니다.");
+            authMemberService.updateNickName(memberId, nickName);
+            return ResponseEntity.ok(nickName);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
