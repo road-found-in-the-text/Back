@@ -84,4 +84,12 @@ public class AuthMemberService {
         member.setSocialId(null);
         socialMemberRepository.save(member);
     }
+
+    public void updateNickName(String memberId, String updateNickname) {
+        Member member = socialMemberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 멤버를 찾을 수 없습니다."));
+
+        member.setNickName(updateNickname);
+        socialMemberRepository.save(member);
+    }
 }

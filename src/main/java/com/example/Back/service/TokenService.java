@@ -8,8 +8,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 
@@ -63,17 +66,6 @@ public class TokenService {
                 .compact();
     }
 
-    public long verifyRefreshToken(String token){
-        try{
-            Jws<Claims> claims = Jwts.parser()
-                    .setSigningKey(secretKey)
-                    .parseClaimsJws(token);
-            return claims.getBody()
-                    .getExpiration().getTime();
-        } catch (Exception e) {
-            return 0;
-        }
-    }
 
     public boolean verifyToken(String token) {
         try {
@@ -104,7 +96,17 @@ public class TokenService {
         return new UsernamePasswordAuthenticationToken(currentUserDetails, "", currentUserDetails.getAuthorities());
     }
 
-    public String getSocialId(String accessToken) {
+    /*
+Header에서 JWT 추출
+@return String
+ */
+    public String getJwt(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        return request.getHeader("Authorization");
+    }
+
+    public String getSocialId() {
+        String accessToken = getJwt();
         Claims claims = parseClaims(accessToken);
 
         if (claims.get(AUTHORITIES_KEY) == null) {
