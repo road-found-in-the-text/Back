@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 
 import static com.example.Back.domain.QAssessmentQuestion.assessmentQuestion;
+// import static com.example.Back.domain.AssessmentQuestion.assessmentQuestion;
 
 public class AssessmentQuestionRepositoryImpl implements AssessmentQuestionRepositoryCustom {
 

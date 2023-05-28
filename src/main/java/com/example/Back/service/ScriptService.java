@@ -51,7 +51,6 @@ public class ScriptService {
 
     public ResponseEntity<?> writeScript(ScriptRequestDto.Register script1) {
 
-        // Member script_member=memberRepository.getUser(script1.getMemberId());
         ArrayList<ParagraphReq> contents = script1.getContents();
         int cnt_list = contents.size();
 

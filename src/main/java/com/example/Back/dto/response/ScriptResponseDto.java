@@ -19,8 +19,7 @@ public class ScriptResponseDto {
     private static class Body {
 
         private String result;
-
-        // private Long memberId;
+        private String socialId;
         private Long script_id;
         private String message;
 
@@ -32,7 +31,7 @@ public class ScriptResponseDto {
 
         private String result;
 
-        // private Long memberId;
+        private String socialId;
         private Long script_id;
 
         private String script_title;
@@ -46,7 +45,7 @@ public class ScriptResponseDto {
 
         Body body = Body.builder()
                 .result("success")
-                // .memberId(script.getMemberId().getId())
+                .socialId(script.getMemberId().getSocialId())
                 .script_id(script.getScriptId())
                 .message("script가 성공적으로 저장되었습니다.")
                 .build();
@@ -58,7 +57,7 @@ public class ScriptResponseDto {
 
         Body body = Body.builder()
                 .result("success")
-                // .memberId(script.getMemberId().getId())
+                .socialId(script.getMemberId().getSocialId())
                 .script_id(script.getScriptId())
                 .message("script가 성공적으로 삭제되었습니다.")
                 .build();
@@ -84,7 +83,7 @@ public class ScriptResponseDto {
 
         ScriptBody body = ScriptBody.builder()
                 .result("success")
-                // .memberId(script.getMemberId().getId())
+                .socialId(script.getMemberId().getSocialId())
                 .script_id(script.getScriptId())
                 .script_title(script.getTitle())
                 .content_cnt(script.getCnt())
