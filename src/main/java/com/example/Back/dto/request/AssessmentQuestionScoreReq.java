@@ -13,6 +13,8 @@ public class AssessmentQuestionScoreReq {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class createQuestionScore{
+        private Integer practice_minute;
+        private Integer practice_second;
         private List<QuestionScore> questionScores;
     }
 
