@@ -1,9 +1,6 @@
 package com.example.Back.service;
 
-import com.example.Back.domain.AssessmentQuestion;
-import com.example.Back.domain.AssessmentQuestionScore;
-import com.example.Back.domain.AssessmentQuestionView;
-import com.example.Back.domain.Script;
+import com.example.Back.domain.*;
 import com.example.Back.dto.request.AssessmentQuestionScoreReq;
 import com.example.Back.dto.request.AssessmentQuestionViewReq;
 import com.example.Back.dto.response.AssessmentQuestionScoreRes;
@@ -11,10 +8,7 @@ import com.example.Back.dto.response.AssessmentQuestionViewRes;
 import com.example.Back.dto.response.ResponseBody;
 import com.example.Back.exception.CustomException;
 import com.example.Back.exception.ErrorCode;
-import com.example.Back.repository.AssessmentQuestionRepository;
-import com.example.Back.repository.AssessmentQuestionScoreRepository;
-import com.example.Back.repository.AssessmentQuestionViewRepository;
-import com.example.Back.repository.ScriptRepository;
+import com.example.Back.repository.*;
 import com.mysema.commons.lang.Pair;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +31,7 @@ public class AssessmentQuestionViewService {
 
     private final AssessmentQuestionRepository assessmentQuestionRepository;
     private final AssessmentQuestionViewRepository assessmentQuestionViewRepository;
+    private final AssessmentPracticeInfoRepository assessmentPracticeInfoRepository;
 
     Script findScript(Long script_id){
         return scriptRepository.findById(script_id).orElseThrow(
@@ -123,10 +118,20 @@ public class AssessmentQuestionViewService {
             count++;
         }
 
+        AssessmentPracticeInfo findAssessmentPracticeInfo = assessmentPracticeInfoRepository.findByScriptIdAndScoreCount(
+                findScript.getScriptId(),findScript.getScore_count()
+        );
+
         if(beforeAssessmentQuestionViewList.size()==0){
             all_score_avg = all_score_ave_sum/count;
             return new ResponseBody(new AssessmentQuestionViewRes.getQuestionScore(
                     findScript.getScore_count(),all_score_avg,
+                    findAssessmentPracticeInfo.getCurrent_practice_hour() != null ? findAssessmentPracticeInfo.getCurrent_practice_hour():0,
+                    findAssessmentPracticeInfo.getCurrent_practice_minute(),
+                    findAssessmentPracticeInfo.getCurrent_practice_second(),
+                    findAssessmentPracticeInfo.getTotal_practice_hour(),
+                    findAssessmentPracticeInfo.getTotal_practice_minute(),
+                    findAssessmentPracticeInfo.getTotal_practice_second(),
                     beforeAssessmentQuestionViewList.stream().map(
                             assessmentQuestionView -> new AssessmentQuestionScoreRes.QuestionScore(
                                     assessmentQuestionView.getSequence(),assessmentQuestionView.getQuestion_category(),
@@ -148,6 +153,12 @@ public class AssessmentQuestionViewService {
             all_score_avg = all_score_ave_sum/count;
             return new ResponseBody(new AssessmentQuestionViewRes.getQuestionScore(
                     findScript.getScore_count(),all_score_avg,
+                    findAssessmentPracticeInfo.getCurrent_practice_hour() != null ? findAssessmentPracticeInfo.getCurrent_practice_hour():0,
+                    findAssessmentPracticeInfo.getCurrent_practice_minute(),
+                    findAssessmentPracticeInfo.getCurrent_practice_second(),
+                    findAssessmentPracticeInfo.getTotal_practice_hour(),
+                    findAssessmentPracticeInfo.getTotal_practice_minute(),
+                    findAssessmentPracticeInfo.getTotal_practice_second(),
                     beforeAssessmentQuestionViewList.stream().map(
                             assessmentQuestionView -> new AssessmentQuestionScoreRes.QuestionScore(
                                     assessmentQuestionView.getSequence(),assessmentQuestionView.getQuestion_category(),

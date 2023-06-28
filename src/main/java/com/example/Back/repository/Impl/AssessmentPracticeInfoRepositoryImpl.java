@@ -14,7 +14,7 @@ public class AssessmentPracticeInfoRepositoryImpl implements AssessmentPracticeI
     }
 
     @Override
-    public AssessmentPracticeInfo findBeforeAssessmentPracticeInfo(Long script_id, Integer score_count) {
+    public AssessmentPracticeInfo findByScriptIdAndScoreCount(Long script_id, Integer score_count) {
         return jpaQueryFactory.selectFrom(assessmentPracticeInfo)
                 .where(assessmentPracticeInfo.script.scriptId.eq(script_id).and(assessmentPracticeInfo.score_count.eq(score_count)))
                 .fetchOne();

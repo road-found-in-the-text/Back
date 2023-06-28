@@ -69,7 +69,7 @@ public class AssessmentQuestionScoreService {
             before_score_count = 0;
         }
 
-        AssessmentPracticeInfo beforeAssessmentInfo = assessmentPracticeInfoRepository.findBeforeAssessmentPracticeInfo(findScript.getScriptId(),before_score_count);
+        AssessmentPracticeInfo beforeAssessmentInfo = assessmentPracticeInfoRepository.findByScriptIdAndScoreCount(findScript.getScriptId(),before_score_count);
 
         if(beforeAssessmentInfo == null){
             total_practice_minute = request.getPractice_minute();
