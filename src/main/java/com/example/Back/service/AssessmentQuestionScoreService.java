@@ -69,13 +69,18 @@ public class AssessmentQuestionScoreService {
             before_score_count = 0;
         }
 
+        if(request.getPractice_hour() == null){
+            request.setPractice_hour(0);
+        }
+
         AssessmentPracticeInfo beforeAssessmentInfo = assessmentPracticeInfoRepository.findByScriptIdAndScoreCount(findScript.getScriptId(),before_score_count);
 
         if(beforeAssessmentInfo == null){
+            total_practice_hour = request.getPractice_hour();
             total_practice_minute = request.getPractice_minute();
             total_practice_second = request.getPractice_second();
         }else{
-            total_practice_hour = beforeAssessmentInfo.getTotal_practice_hour();
+            total_practice_hour = beforeAssessmentInfo.getTotal_practice_hour() + request.getPractice_hour();
             total_practice_minute = beforeAssessmentInfo.getTotal_practice_minute() + request.getPractice_minute();
             total_practice_second = beforeAssessmentInfo.getTotal_practice_second() + request.getPractice_second();
 
