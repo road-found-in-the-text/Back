@@ -92,4 +92,6 @@ public class AuthMemberService {
         member.setNickName(updateNickname);
         socialMemberRepository.save(member);
     }
+
+
 }
