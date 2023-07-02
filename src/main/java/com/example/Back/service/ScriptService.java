@@ -112,6 +112,39 @@ public class ScriptService {
         return scriptResponse.scriptSuccess(script1);
     }
 
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> getAllScriptContents(String socialId){
+        Optional<Member> cur_member = memberRepository.findBySocialId(socialId);
+
+        if (cur_member.isPresent()) {
+            Member member = cur_member.get();
+
+
+            // return scriptResponse.scriptCreateSuccess(script);
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseTemplate<>(USER_NOT_FOUND));
+    }
+/*
+    public List<PostRes> getPosts(Long albumId) {
+        Album cur_album = em.find(Album.class, albumId);
+        System.out.println("album id: "+albumId+", album name: "+cur_album.getAlbumName());
+        List<PostRes> res_li = new ArrayList<>();
+
+        List<Post> post_li = cur_album.getPosts();
+        System.out.println("post_li size: "+post_li.size());
+        for (int idx=0 ; idx<post_li.size(); idx++) {
+            Post cur_post = post_li.get(idx);
+            // if (cur_post.getDeleted() == true) continue;
+            PostRes new_res = new PostRes();
+            new_res.setPostId(cur_post.getPostId());
+            new_res.setPostDate(cur_post.getPostDate());
+            new_res.setMainImage(cur_post.getImagePaths().get(0));
+            res_li.add(new_res);
+        }
+        return res_li;
+    }
+*/
 
     /*
     public List<Script> findByMemberId(Long memberId){

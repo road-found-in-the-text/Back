@@ -40,5 +40,11 @@ public class ScriptController {
         return scriptService.deleteScript(id);
     }
 
+    @GetMapping("/all/{socialId}")
+    public ResponseEntity<?> readAllScript(@PathVariable("socialId") String socialId) {
+
+        return scriptService.getAllScriptContents(socialId);
+    }
+
 
 }
