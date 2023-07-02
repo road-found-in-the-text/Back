@@ -6,5 +6,3 @@ import org.zalando.problem.spring.web.advice.ProblemHandling;
 @ControllerAdvice
 public class ExceptionHandlingControllerAdvisor implements ProblemHandling {}
 
-
-

@@ -25,5 +25,4 @@ public class MemberDetailServiceImpl implements UserDetailsService{
                 .map(u -> new CurrentUserDetails(u, Collections.singleton(new SimpleGrantedAuthority("USER"))))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with socialId: " + socialId));
     }
-
 }
