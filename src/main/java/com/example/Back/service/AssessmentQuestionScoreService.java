@@ -1,14 +1,12 @@
 package com.example.Back.service;
 
-import com.example.Back.domain.AssessmentQuestion;
-import com.example.Back.domain.AssessmentQuestionScore;
-import com.example.Back.domain.AssessmentQuestionView;
-import com.example.Back.domain.Script;
+import com.example.Back.domain.*;
 import com.example.Back.dto.request.AssessmentQuestionScoreReq;
 import com.example.Back.dto.response.AssessmentQuestionScoreRes;
 import com.example.Back.dto.response.ResponseBody;
 import com.example.Back.exception.CustomException;
 import com.example.Back.exception.ErrorCode;
+import com.example.Back.repository.AssessmentPracticeInfoRepository;
 import com.example.Back.repository.AssessmentQuestionRepository;
 import com.example.Back.repository.AssessmentQuestionScoreRepository;
 import com.example.Back.repository.ScriptRepository;
@@ -35,6 +33,8 @@ public class AssessmentQuestionScoreService {
     private final AssessmentQuestionRepository assessmentQuestionRepository;
     private final AssessmentQuestionScoreRepository assessmentQuestionScoreRepository;
 
+    private final AssessmentPracticeInfoRepository assessmentPracticeInfoRepository;
+
     Script findScript(Long script_id){
         return scriptRepository.findById(script_id).orElseThrow(
                 () -> new CustomException(ErrorCode.SCRIPT_NOT_FOUND)
@@ -51,6 +51,55 @@ public class AssessmentQuestionScoreService {
 
         // 해당 script를 찾는다.
         Script findScript = findScript(script_id);
+
+        // 해당 연습의 걸린 시간과 분을 저장.
+        AssessmentPracticeInfo assessmentPracticeInfo = AssessmentPracticeInfo.builder()
+                .current_practice_minute(request.getPractice_minute())
+                .current_practice_second(request.getPractice_second())
+                .score_count(findScript.getScore_count()+1)
+                .script(findScript)
+                .build();
+        Integer total_practice_hour = 0;
+        Integer total_practice_minute = 0;
+        Integer total_practice_second = 0;
+
+        Integer before_score_count = findScript.getScore_count();
+
+        if(before_score_count == null){
+            before_score_count = 0;
+        }
+
+        if(request.getPractice_hour() == null){
+            request.setPractice_hour(0);
+        }
+
+        AssessmentPracticeInfo beforeAssessmentInfo = assessmentPracticeInfoRepository.findByScriptIdAndScoreCount(findScript.getScriptId(),before_score_count);
+
+        if(beforeAssessmentInfo == null){
+            total_practice_hour = request.getPractice_hour();
+            total_practice_minute = request.getPractice_minute();
+            total_practice_second = request.getPractice_second();
+        }else{
+            total_practice_hour = beforeAssessmentInfo.getTotal_practice_hour() + request.getPractice_hour();
+            total_practice_minute = beforeAssessmentInfo.getTotal_practice_minute() + request.getPractice_minute();
+            total_practice_second = beforeAssessmentInfo.getTotal_practice_second() + request.getPractice_second();
+
+            if(total_practice_second >= 60){
+                total_practice_minute += total_practice_second /60;
+                total_practice_second = total_practice_second % 60;
+            }
+
+            if(total_practice_minute >= 60 ){
+                total_practice_hour += total_practice_minute / 60;
+                total_practice_minute = total_practice_minute % 60;
+            }
+        }
+
+        assessmentPracticeInfo.setTotal_practice_hour(total_practice_hour);
+        assessmentPracticeInfo.setTotal_practice_minute(total_practice_minute);
+        assessmentPracticeInfo.setTotal_practice_second(total_practice_second);
+
+        assessmentPracticeInfoRepository.save(assessmentPracticeInfo);
 
         // 모든 AssessmentQuestion을 가지고 온다.
         List<AssessmentQuestion> allDbAssessmentQuestion = assessmentQuestionRepository.findByDeletedFalse();
