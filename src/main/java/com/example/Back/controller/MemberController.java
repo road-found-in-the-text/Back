@@ -57,6 +57,4 @@ public class MemberController {
         authMemberService.withdrawl(member);
         return ResponseEntity.ok().build();
     }
-
-
 }
