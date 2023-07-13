@@ -3,11 +3,12 @@ package com.example.Back.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter @Setter @Entity
+@Getter @Setter @Entity @NoArgsConstructor
 public class Member{
 
     @Id
