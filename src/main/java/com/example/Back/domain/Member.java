@@ -22,6 +22,9 @@ public class Member{
     @Enumerated(EnumType.STRING)
     private Tier tier ;
 
+    @Column(nullable = true)
+    private String imageUrl;
+
     @Enumerated(EnumType.STRING)
     private LoginType loginType; //일반 로그인 또는 소셜로그인
 
