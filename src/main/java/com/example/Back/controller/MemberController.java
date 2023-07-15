@@ -3,6 +3,7 @@ package com.example.Back.controller;
 import com.example.Back.domain.CurrentUser;
 import com.example.Back.domain.Member;
 import com.example.Back.dto.request.UpdateNickNameReq;
+import com.example.Back.dto.response.MemberRes;
 import com.example.Back.service.AuthMemberService;
 import com.example.Back.service.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,5 +57,13 @@ public class MemberController {
     public ResponseEntity<Void> withdrawl (@CurrentUser Member member) {
         authMemberService.withdrawl(member);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/mypage")
+    @Operation(summary = "회원 조회", security = @SecurityRequirement(name = "bearer-key"))
+    public ResponseEntity<MemberRes> getMypage () {
+        String memberId = tokenService.getSocialId();
+        MemberRes memberRes = authMemberService.getMemberInfo(memberId);
+        return ResponseEntity.ok(memberRes);
     }
 }

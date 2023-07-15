@@ -1,15 +1,15 @@
 package com.example.Back.service;
 
 
-import com.example.Back.domain.LoginType;
-import com.example.Back.domain.Member;
-import com.example.Back.domain.Token;
-import com.example.Back.domain.TokenReissue;
+import com.example.Back.domain.*;
 import com.example.Back.dto.request.AuthReq;
 import com.example.Back.dto.response.AuthRes;
+import com.example.Back.dto.response.MemberRes;
 import com.example.Back.repository.SocialMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthMemberService {
+    private static final Logger logger = LoggerFactory.getLogger(Exception.class);
 
     private final SocialMemberRepository socialMemberRepository;
     private final TokenService tokenService;
@@ -36,14 +37,18 @@ public class AuthMemberService {
 
         Token token = tokenService.generateToken(member.getSocialId(), "USER");
 
+        System.out.println("accessToken!!!!");
+        System.out.println(token.getAccessToken());
         boolean isNewMember = false;
         boolean isUserSettingDone = false;
 
         //최초 회원가입 시
         if (socialMemberRepository.findBySocialId(member.getSocialId()).equals(Optional.empty())) {
-
+            member.setTier(Tier.Bronze);
+            member.setIntroduction("안녕하세요.");
             socialMemberRepository.save(member);
-
+            System.out.println("accessToken!!!!");
+            System.out.println(token.getAccessToken());
             System.out.println(member.getSocialId());
 
             isNewMember = true;
@@ -92,4 +97,20 @@ public class AuthMemberService {
         member.setNickName(updateNickname);
         socialMemberRepository.save(member);
     }
+
+
+    public MemberRes getMemberInfo(String memberId) {
+        Member member = socialMemberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 멤버를 찾을 수 없습니다."));
+
+        MemberRes memberRes = new MemberRes();
+        memberRes.setImageUrl(member.getImageUrl());
+        memberRes.setTier(member.getTier());
+        memberRes.setNickName(member.getNickName());
+        memberRes.setIntroduction(member.getIntroduction());
+
+        return memberRes;
+    }
+
+
 }
