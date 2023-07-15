@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -21,11 +21,9 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .disable()
                 .cors().configurationSource(request -> {
                     CorsConfiguration cors = new CorsConfiguration();
-                    cors.setAllowedOrigins(Arrays.asList(
-                            "/*"
-                    ));
+                    cors.setAllowedOrigins(Arrays.asList("/*"));
                     cors.setAllowedMethods(Arrays.asList("*"));
-                    cors.setAllowedHeaders(Arrays.asList("*"));
+                    cors.setAllowedHeaders(Arrays.asList("https://api.road-found-in-the-text-server.com/*"));
                     return cors;
                 });
     }
