@@ -60,7 +60,7 @@ public class MemberController {
     }
 
     @GetMapping("/mypage")
-    @Operation(summary = "닉네임 변경", security = @SecurityRequirement(name = "bearer-key"))
+    @Operation(summary = "회원 조회", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<MemberRes> getMypage () {
         String memberId = tokenService.getSocialId();
         MemberRes memberRes = authMemberService.getMemberInfo(memberId);
