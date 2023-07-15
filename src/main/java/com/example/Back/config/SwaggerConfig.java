@@ -18,7 +18,7 @@ public class SwaggerConfig {
                 .info(new Info().title("글길 Phase1")
                         .description("글에서 발견한 길 프로젝트 API 명세서")
                         .version("v1.0.0")
-                        .license(new License().name("글길").url("https://api.road-found-in-the-text-server.com/")))
+                        .license(new License().name("글길").url("/")))
                 .components(new Components()
                         .addSecuritySchemes("bearer-key", new SecurityScheme()
                                 .type(HTTP)
