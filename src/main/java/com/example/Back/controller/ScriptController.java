@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController      // Json 형태로 객체 데이터를 반환 (@Controller + @ResponseBody)
-@RequestMapping("/script")
+@RequestMapping("api/v1/script")
 @RequiredArgsConstructor
 // @Api(tags = {"Script Api"})
 public class ScriptController {
