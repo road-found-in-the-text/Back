@@ -8,6 +8,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -20,13 +22,14 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class TokenService {
     private String secretKey = "ny5YfGsmeu4riVP8zf8WLepKO2rCF5jo";
+
     private static final String AUTHORITIES_KEY = "role";
 
     private final UserDetailsService userDetailsService;
 
     @PostConstruct
     protected void init() {
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+        secretKey = Base64Utils.encodeToUrlSafeString(secretKey.getBytes());
     }
 
     public Token generateToken(String uid, String role) {
@@ -102,12 +105,19 @@ Header에서 JWT 추출
  */
     public String getJwt(){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        return request.getHeader("Authorization");
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
+            return bearerToken.split(" ")[1].trim();
+        }
+        System.out.println("don't have");
+        return null;
     }
 
     public String getSocialId() {
         String accessToken = getJwt();
         Claims claims = parseClaims(accessToken);
+
+
 
         if (claims.get(AUTHORITIES_KEY) == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
