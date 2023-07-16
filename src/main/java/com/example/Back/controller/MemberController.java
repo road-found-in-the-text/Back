@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("api/v1/members")
 public class MemberController {
 
     @Autowired
@@ -27,11 +27,11 @@ public class MemberController {
         this.authMemberService = authMemberService;
     }
 
-    @PutMapping("/nickname")
+    @PutMapping("/nickname") @ResponseBody
     @Operation(summary = "닉네임 변경", security = @SecurityRequirement(name = "bearer-key"))
-    public ResponseEntity<String> updateUserNickname (UpdateNickNameReq updateNickNameReq) {
+    public ResponseEntity<String> updateUserNickname (@RequestBody UpdateNickNameReq updateNickNameReq) {
         try {
-            String nickName = updateNickNameReq.getNickName();
+            String nickName = updateNickNameReq.getNickname();
             String memberId = tokenService.getSocialId();
             authMemberService.updateNickName(memberId, nickName);
             return ResponseEntity.ok(nickName);
@@ -40,11 +40,12 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/nickname")
+    @PostMapping("/nickname") @ResponseBody
     @Operation(summary = "닉네임 할당", security = @SecurityRequirement(name = "bearer-key"))
-    public ResponseEntity<String> initializeNickname (UpdateNickNameReq updateNickNameReq) {
+    public ResponseEntity<String> initializeNickname (@RequestBody UpdateNickNameReq updateNickNameReq) {
         try {
-            String nickName = updateNickNameReq.getNickName();
+            String nickName = updateNickNameReq.getNickname();
+            System.out.println(nickName);
             String memberId = tokenService.getSocialId();
             authMemberService.updateNickName(memberId, nickName);
             return ResponseEntity.ok(nickName);

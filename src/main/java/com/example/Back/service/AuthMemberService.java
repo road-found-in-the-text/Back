@@ -93,7 +93,7 @@ public class AuthMemberService {
     public void updateNickName(String memberId, String updateNickname) {
         Member member = socialMemberRepository.findBySocialId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 멤버를 찾을 수 없습니다."));
-
+        System.out.println(member.getNickName());
         member.setNickName(updateNickname);
         socialMemberRepository.save(member);
     }
@@ -111,6 +111,4 @@ public class AuthMemberService {
 
         return memberRes;
     }
-
-
 }

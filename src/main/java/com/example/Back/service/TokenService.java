@@ -53,31 +53,13 @@ public class TokenService {
                         .compact());
     }
 
-    public String generateAccessToken(String uid, String role) {
-        long tokenPeriod = 1000L * 60L * 10L;
 
-        Claims claims = Jwts.claims().setSubject(uid);
-        claims.put("role", role);
-
-        Date now = new Date();
-
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenPeriod))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
-    }
 
 
     public boolean verifyToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parser()
-                    .setSigningKey(secretKey)
-                    .parseClaimsJws(token);
-            return claims.getBody()
-                    .getExpiration()
-                    .after(new Date());
+            Claims claims = parseClaims(token);
+            return claims.getExpiration().after(new Date());
         } catch (Exception e) {
             return false;
         }
@@ -117,14 +99,10 @@ Header에서 JWT 추출
         String accessToken = getJwt();
         Claims claims = parseClaims(accessToken);
 
-
-
         if (claims.get(AUTHORITIES_KEY) == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
         final String socialId = claims.getSubject();
-        final CurrentUserDetails currentUserDetails = (CurrentUserDetails) userDetailsService.loadUserByUsername(socialId);
-
         return socialId;
     }
 
