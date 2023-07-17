@@ -48,6 +48,7 @@ public class AuthMemberService {
             member.setIntroduction("안녕하세요.");
             socialMemberRepository.save(member);
             System.out.println("accessToken!!!!");
+            System.out.println(authRequest.getAccessToken());
             System.out.println(token.getAccessToken());
             System.out.println(member.getSocialId());
 
@@ -74,7 +75,7 @@ public class AuthMemberService {
         return kakaoUser;
     }
 
-    public Member getAppleProfile(String oauthToken) throws NoSuchAlgorithmException {
+    public Member getAppleProfile(String oauthToken) {
         Member appleUser = clientApple.getMemberData(oauthToken);
         System.out.println("getApple");
         return appleUser;

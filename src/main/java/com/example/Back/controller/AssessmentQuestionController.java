@@ -6,6 +6,7 @@ import com.example.Back.dto.response.ResponseBody;
 import com.example.Back.service.AssessmentQuestionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,28 +24,28 @@ public class AssessmentQuestionController {
 
     private final AssessmentQuestionService assessmentQuestionService;
 
-    @Operation(summary = "평가 항목 모두 가져오기")
+    @Operation(summary = "평가 항목 모두 가져오기", security = @SecurityRequirement(name = "bearer-key"))
     @ApiResponse(description = "평가 항목 전체 가져오기")
     @GetMapping("")
     public ResponseBody<AssessmentQuestionRes.getQuestion> getQuestion(){
         return assessmentQuestionService.getQuestion();
     }
 
-    @Operation(summary = "평가 항목 저장")
+    @Operation(summary = "평가 항목 저장", security = @SecurityRequirement(name = "bearer-key"))
     @ApiResponse(description = "평가 항목 전체 db에 저장하기")
     @PostMapping("")
     public ResponseBody<String> createQuestion(@Valid @RequestBody AssessmentQuestionReq.createQuestion request){
         return assessmentQuestionService.createQuestion(request);
     }
 
-    @Operation(summary = "평가 항목 수정")
+    @Operation(summary = "평가 항목 수정", security = @SecurityRequirement(name = "bearer-key"))
     @ApiResponse(description = "평가 항목 수정")
     @PutMapping("")
     public ResponseBody<AssessmentQuestionRes.getQuestion> updateQuestion(@Valid @RequestBody AssessmentQuestionReq.updateQuestion request){
         return assessmentQuestionService.updateQuestion(request);
     }
 
-    @Operation(summary = "평가 항목 전체 삭제")
+    @Operation(summary = "평가 항목 전체 삭제", security = @SecurityRequirement(name = "bearer-key"))
     @ApiResponse(description = "평가 항목 전체 삭제")
     @DeleteMapping("")
     public ResponseBody<String> deleteQuestion(){

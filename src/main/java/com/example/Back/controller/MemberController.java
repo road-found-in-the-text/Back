@@ -54,11 +54,6 @@ public class MemberController {
         }
     }
 
-    @PatchMapping("/withdrawl")
-    public ResponseEntity<Void> withdrawl (@CurrentUser Member member) {
-        authMemberService.withdrawl(member);
-        return ResponseEntity.ok().build();
-    }
 
     @GetMapping("/mypage")
     @Operation(summary = "회원 조회", security = @SecurityRequirement(name = "bearer-key"))

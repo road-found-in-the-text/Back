@@ -9,6 +9,7 @@ import com.example.Back.service.AssessmentQuestionScoreService;
 import com.example.Back.service.AssessmentQuestionViewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class AssessmentQuestionScoreController {
     private final AssessmentQuestionScoreService assessmentQuestionScoreService;
     private final AssessmentQuestionViewService assessmentQuestionViewService;
 
-    @Operation(summary = "평가 항목 점수 db에 저장")
+    @Operation(summary = "평가 항목 점수 db에 저장", security = @SecurityRequirement(name = "bearer-key"))
     @ApiResponse(description = "평가 항목에 대한 점수를 db에 저장하기")
     @PostMapping("")
     public ResponseBody<AssessmentQuestionScoreRes.getQuestionScore> createQuestionScore(

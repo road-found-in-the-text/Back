@@ -5,6 +5,8 @@ import com.example.Back.dto.request.AssessmentMemoReq;
 import com.example.Back.dto.response.AssessmentMemoRes;
 import com.example.Back.dto.response.ResponseBody;
 import com.example.Back.service.AssessmentMemoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,12 +22,14 @@ public class AssessmentMemoController {
     private final AssessmentMemoService assessmentMemoService;
 
     @PostMapping("")
+    @Operation(summary = "메모 생성", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseBody<String> createMemo(@PathVariable(name = "script-id")Long script_id,
                                                                  @RequestBody AssessmentMemoReq.createMemo request){
         return assessmentMemoService.createMemo(script_id,request);
     }
 
     @GetMapping("")
+    @Operation(summary = "메모 가져오기", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseBody<AssessmentMemoRes.getMemo> getMemo(@PathVariable(name = "script-id")Long script_id){
         return assessmentMemoService.getMemo(script_id);
     }
