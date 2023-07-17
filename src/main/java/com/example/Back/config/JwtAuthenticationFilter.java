@@ -33,7 +33,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 1. Request Header 에서 토큰을 꺼냄
         String jwt = resolveToken(request);
-
         log.debug(String.valueOf(request));
 
         // 2. validateToken 으로 토큰 유효성 검사
