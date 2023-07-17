@@ -15,10 +15,8 @@ import java.util.Collections;
 @RequiredArgsConstructor
 @Service
 public class MemberDetailServiceImpl implements UserDetailsService{
-    @Autowired
-    private SocialMemberRepository socialMemberRepository;
+    private final SocialMemberRepository socialMemberRepository;
 
-    @SneakyThrows
     @Override
     public CurrentUserDetails loadUserByUsername(String socialId) {
         return socialMemberRepository.findBySocialId(socialId)

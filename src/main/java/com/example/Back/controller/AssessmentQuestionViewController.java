@@ -7,6 +7,7 @@ import com.example.Back.dto.response.ResponseBody;
 import com.example.Back.service.AssessmentQuestionViewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class AssessmentQuestionViewController {
 
     private final AssessmentQuestionViewService assessmentQuestionViewService;
 
-    @Operation(summary = "평가 항목 점수 계산해서 user에게 보여줌")
+    @Operation(summary = "평가 항목 점수 계산해서 user에게 보여줌", security = @SecurityRequirement(name = "bearer-key"))
     @ApiResponse(description = "평가 항목 점수 계산해서 user에게 보여줌")
     @GetMapping("")
     public ResponseBody<AssessmentQuestionViewRes.getQuestionScore> getQuestionScore(

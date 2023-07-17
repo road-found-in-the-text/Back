@@ -5,6 +5,8 @@ import com.example.Back.domain.TokenReissue;
 import com.example.Back.dto.request.AuthReq;
 import com.example.Back.dto.response.AuthRes;
 import com.example.Back.service.AuthMemberService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,18 +23,21 @@ public class AuthController {
     private final AuthMemberService authMemberService;
 
     @PostMapping("/login")
+    @Operation(summary = "로그인", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<AuthRes> getTokens(@RequestBody AuthReq authRequest) throws NoSuchAlgorithmException {
         AuthRes authResponse = authMemberService.signUpOrLogIn(authRequest);
         return ResponseEntity.ok(authResponse);
     }
 
     @PatchMapping("/logout")
+    @Operation(summary = "로그아웃", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<Void> logOut (Member member) {
         authMemberService.logout(member);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/withdrawl")
+    @Operation(summary = "회원 탈퇴", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<Void> withdrawl (Member member) {
         authMemberService.withdrawl(member);
         return ResponseEntity.ok().build();

@@ -3,6 +3,8 @@ package com.example.Back.controller;
 import com.example.Back.dto.request.ScriptRequestDto;
 import com.example.Back.dto.response.ScriptResponseDto;
 import com.example.Back.service.ScriptService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +26,21 @@ public class ScriptController {
     // private final JwtService jwtService;
 
     @PostMapping("/new")
+    @Operation(summary = "스크립트 작성", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<?> writeScript(@Valid @RequestBody ScriptRequestDto.Register script ){
 
         return scriptService.writeScript(script);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "스크립트 가져오기", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<?> readScript(@PathVariable("id") Long id) {
 
         return scriptService.getScriptContents(id);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "스크립트 삭제", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<?> deleteScript(@PathVariable Long id) {
         return scriptService.deleteScript(id);
     }

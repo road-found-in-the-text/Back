@@ -103,6 +103,7 @@ Header에서 JWT 추출
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
         final String socialId = claims.getSubject();
+        final CurrentUserDetails currentUserDetails = (CurrentUserDetails) userDetailsService.loadUserByUsername(socialId);
         return socialId;
     }
 
