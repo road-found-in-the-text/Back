@@ -19,8 +19,7 @@ public class ScriptResponseDto {
     private static class Body {
 
         private String result;
-
-        private Long memberId;
+        private String socialId;
         private Long script_id;
         private String message;
 
@@ -32,7 +31,7 @@ public class ScriptResponseDto {
 
         private String result;
 
-        private Long memberId;
+        private String socialId;
         private Long script_id;
 
         private String script_title;
@@ -41,12 +40,29 @@ public class ScriptResponseDto {
 
     }
 
+    @Getter
+    @Builder
+    private static class ScriptBody2 {
+
+        private String result;
+
+        private String socialId;
+        private Long script_id;
+
+        private String script_title;
+        private int content_cnt;
+        private String content;
+        
+        private LocalDateTime modified_date;
+
+    }
+
     // script 최초 생성
     public ResponseEntity<?> scriptCreateSuccess(Script script) {
 
         Body body = Body.builder()
                 .result("success")
-                // .memberId(script.getMemberId().getId())
+                .socialId(script.getMemberId().getSocialId())
                 .script_id(script.getScriptId())
                 .message("script가 성공적으로 저장되었습니다.")
                 .build();
@@ -58,7 +74,7 @@ public class ScriptResponseDto {
 
         Body body = Body.builder()
                 .result("success")
-                // .memberId(script.getMemberId().getId())
+                .socialId(script.getMemberId().getSocialId())
                 .script_id(script.getScriptId())
                 .message("script가 성공적으로 삭제되었습니다.")
                 .build();
@@ -82,10 +98,9 @@ public class ScriptResponseDto {
             contents.add(info);
         }
 
-
         ScriptBody body = ScriptBody.builder()
                 .result("success")
-                //.memberId(script.getMemberId().getId())
+                .socialId(script.getMemberId().getSocialId())
                 .script_id(script.getScriptId())
                 .script_title(script.getTitle())
                 .content_cnt(script.getCnt())
@@ -93,6 +108,23 @@ public class ScriptResponseDto {
                 // .paragraphList(script.getParagraphs())
                 // .createdDate(script.getCreatedDate())
                 // .modifiedDate(script.getModifiedDate())
+                .build();
+        return ResponseEntity.ok(body);
+    }
+
+    // script 전체 내용 1줄만 보여주기 보여주기
+    public ResponseEntity<?> scriptSuccess2(Script script) {
+
+        List<Paragraph> paragraphs = script.getParagraphs();
+
+        ScriptBody2 body = ScriptBody2.builder()
+                .result("success")
+                // .socialId(script.getMemberId().getSocialId())
+                .script_id(script.getScriptId())
+                .script_title(script.getTitle())
+                .content_cnt(script.getCnt())   // 페이지 개수
+                .content(paragraphs.get(0).getContents())
+                .modified_date(script.getModifiedDate())
                 .build();
         return ResponseEntity.ok(body);
     }

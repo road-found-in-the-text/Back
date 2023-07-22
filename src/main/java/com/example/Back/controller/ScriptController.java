@@ -32,17 +32,34 @@ public class ScriptController {
         return scriptService.writeScript(script);
     }
 
+    // id 삭제
+    /*
+    @GetMapping
+    public ResponseEntity<?> readScript() {
+
+        return scriptService.getScriptContents();
+    }
+     */
+
+    // 특정 id를 가진 사람의 scripts들 모두
     @GetMapping("/{id}")
     @Operation(summary = "스크립트 가져오기", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<?> readScript(@PathVariable("id") Long id) {
-
         return scriptService.getScriptContents(id);
     }
+
+
 
     @DeleteMapping("/{id}")
     @Operation(summary = "스크립트 삭제", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<?> deleteScript(@PathVariable Long id) {
         return scriptService.deleteScript(id);
+    }
+
+    @GetMapping("/all/{socialId}")
+    public ResponseEntity<?> readAllScript(@PathVariable("socialId") String socialId) {
+
+        return scriptService.getAllScriptContents(socialId);
     }
 
 

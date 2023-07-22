@@ -13,16 +13,13 @@ public class ScriptRequestDto {
     @Setter
     public static class Register {
 
-        // @NotNull(message = "user id는 필수 입력값입니다.")
-        // private Long memberId;
+        @NotNull(message = "user id는 필수 입력값입니다.")
+        private String memberId;
 
         @NotNull(message = "title은 필수 입력값입니다.")
         private String script_title;
 
         private ArrayList<ParagraphReq> contents;
-
-        // @NotNull(message = "type은 필수 입력값입니다.")
-        // private String type;
 
     }
 
@@ -33,8 +30,7 @@ public class ScriptRequestDto {
         @NotNull(message = "title은 필수 입력값입니다.")
         private String title;
 
-        // @NotNull(message = "type은 필수 입력값입니다.")
-        // private String type;
+        private ArrayList<ParagraphReq> contents;
 
     }
 }
