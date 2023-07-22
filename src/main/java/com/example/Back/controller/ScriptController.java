@@ -29,11 +29,22 @@ public class ScriptController {
         return scriptService.writeScript(script);
     }
 
+    // id 삭제
+    /*
+    @GetMapping
+    public ResponseEntity<?> readScript() {
+
+        return scriptService.getScriptContents();
+    }
+     */
+
+    // 특정 id를 가진 사람의 scripts들 모두
     @GetMapping("/{id}")
     public ResponseEntity<?> readScript(@PathVariable("id") Long id) {
-
         return scriptService.getScriptContents(id);
     }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteScript(@PathVariable Long id) {

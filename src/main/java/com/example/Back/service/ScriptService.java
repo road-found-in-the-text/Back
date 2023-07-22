@@ -109,7 +109,7 @@ public class ScriptService {
     @Transactional(readOnly = true)
     public ResponseEntity<?> getScriptContents(Long scriptId){
         Script script1= em.find(Script.class, scriptId);
-        return scriptResponse.scriptSuccess(script1);
+        return scriptResponse.scriptSuccess2(script1);
     }
 
     @Transactional(readOnly = true)
@@ -118,11 +118,8 @@ public class ScriptService {
 
         if (cur_member.isPresent()) {
             Member member = cur_member.get();
-
-
             // return scriptResponse.scriptCreateSuccess(script);
         }
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseTemplate<>(USER_NOT_FOUND));
     }
 /*
