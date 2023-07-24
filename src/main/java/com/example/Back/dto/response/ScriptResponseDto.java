@@ -41,6 +41,17 @@ public class ScriptResponseDto {
 
     }
 
+    @Getter
+    @Builder
+    private static class ScriptListBody {
+
+        private String result;
+        private List<ScriptRes> scripts;
+        private int count;
+        // private LocalDateTime modifiedDate;
+
+    }
+
     // script 최초 생성
     public ResponseEntity<?> scriptCreateSuccess(Script script) {
 
@@ -93,6 +104,32 @@ public class ScriptResponseDto {
                 // .paragraphList(script.getParagraphs())
                 // .createdDate(script.getCreatedDate())
                 // .modifiedDate(script.getModifiedDate())
+                .build();
+        return ResponseEntity.ok(body);
+    }
+
+    public ResponseEntity<?> scriptAllSuccess(List<Script> script_list) {
+
+        // List<Paragraph> paragraphs = script.getParagraphs();
+        List<ScriptRes> scripts = new ArrayList<ScriptRes>();
+
+        for (int idx=0; idx< script_list.size(); idx++) {
+            Script cur_script = script_list.get(idx);
+            ScriptRes info = new ScriptRes();
+
+            info.setScript_id(cur_script.getScriptId());
+            info.setContent(cur_script.getParagraphs().get(0).getContents());
+
+            scripts.add(info);
+        }
+
+
+        ScriptListBody body = ScriptListBody.builder()
+                .result("success")
+                //.memberId(script.getMemberId().getId())
+                .scripts(scripts)
+                .count(scripts.size())
+                // .modifiedDate(script.getCnt())
                 .build();
         return ResponseEntity.ok(body);
     }

@@ -45,5 +45,19 @@ public class ScriptController {
         return scriptService.deleteScript(id);
     }
 
+    // 특정 사용자가 작성한 script 모두 갖고오기
+    @GetMapping("/all/{socialId}")
+    public ResponseEntity<?> readAllWriterScript(@PathVariable("socialId") String socialId) {
+
+        return scriptService.getWriterScriptContents(socialId);
+    }
+
+    // 모든 script 갖고오기
+    @GetMapping("/all")
+    public ResponseEntity<?> readAllScript() {
+
+        return scriptService.getAllScriptContents();
+    }
+
 
 }

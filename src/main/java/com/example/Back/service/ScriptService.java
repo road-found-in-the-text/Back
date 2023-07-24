@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -89,13 +90,31 @@ public class ScriptService {
         return scriptResponse.scriptDeleteSuccess(toDeleteScript);
     }
 
-
+    // 특정 script 내용 갖고오기 (by id)
     @Transactional(readOnly = true)
     public ResponseEntity<?> getScriptContents(Long scriptId){
         Script script1= em.find(Script.class, scriptId);
         return scriptResponse.scriptSuccess(script1);
     }
 
+    // 특정 사용자가 작성한 script 모두 갖고오기
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> getWriterScriptContents(String socialId) {
+        /*
+        if (postRepository.checkPostId(postId)!=1) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseTemplate<>(POST_NOT_FOUND));
+        }
+         */
+        List<Script> res_list = scriptRepository.findBySocialId(socialId);
+        return scriptResponse.scriptAllSuccess(res_list);
+    }
+
+    // 모든 script 갖고오기
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> getAllScriptContents() {
+        List<Script> res_list = scriptRepository.findAll();
+        return scriptResponse.scriptAllSuccess(res_list);
+    }
 
     /*
     public List<Script> findByMemberId(Long memberId){
