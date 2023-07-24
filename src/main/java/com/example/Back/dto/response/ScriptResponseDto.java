@@ -2,8 +2,10 @@ package com.example.Back.dto.response;
 
 import com.example.Back.domain.Paragraph;
 import com.example.Back.domain.Script;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +22,7 @@ public class ScriptResponseDto {
 
         private String result;
 
-        private Long memberId;
+        // private Long memberId;
         private Long script_id;
         private String message;
 
@@ -31,13 +33,27 @@ public class ScriptResponseDto {
     private static class ScriptBody {
 
         private String result;
-
-        private Long memberId;
+        // private Long memberId;
         private Long script_id;
 
         private String script_title;
-        private int content_cnt;
         private List<ParagraphRes> content;
+        private int content_cnt;
+
+        // pattern = "dd-MM-yyyy hh:mm:ss a"
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private LocalDateTime modifiedDate;
+
+    }
+
+    @Getter
+    @Builder
+    private static class ScriptListBody {
+
+        private String result;
+        private List<ScriptRes> scripts;
+        private int count;
+        // private LocalDateTime modifiedDate;
 
     }
 
@@ -92,7 +108,36 @@ public class ScriptResponseDto {
                 .content(contents)
                 // .paragraphList(script.getParagraphs())
                 // .createdDate(script.getCreatedDate())
-                // .modifiedDate(script.getModifiedDate())
+                .modifiedDate(script.getModifiedDate())
+                .build();
+        return ResponseEntity.ok(body);
+    }
+
+    public ResponseEntity<?> scriptAllSuccess(List<Script> script_list) {
+
+        // List<Paragraph> paragraphs = script.getParagraphs();
+        List<ScriptRes> scripts = new ArrayList<ScriptRes>();
+
+        for (int idx=0; idx< script_list.size(); idx++) {
+            Script cur_script = script_list.get(idx);
+            ScriptRes info = new ScriptRes();
+
+            info.setScript_id(cur_script.getScriptId());
+            info.setScript_title(cur_script.getTitle());
+            info.setContent(cur_script.getParagraphs().get(0).getContents());
+            info.setCount_page(cur_script.getCnt());
+            info.setModified_date(cur_script.getModifiedDate());
+
+            scripts.add(info);
+        }
+
+
+        ScriptListBody body = ScriptListBody.builder()
+                .result("success")
+                //.memberId(script.getMemberId().getId())
+                .scripts(scripts)
+                .count(scripts.size())
+                // .modifiedDate(script.getCnt())
                 .build();
         return ResponseEntity.ok(body);
     }
