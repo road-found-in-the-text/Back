@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface ScriptRepository extends JpaRepository<Script, Long>, CrudRepository<Script, Long> {
     Optional<Script> findById(Long id);
-    // List<Script> findBySocialId(String socialId);
+    List<Script> findByMemberId(Long memberId);
 
     List<Script> findAll();
 

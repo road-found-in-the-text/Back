@@ -46,14 +46,16 @@ public class ScriptController {
     }
 
     // 특정 사용자가 작성한 script 모두 갖고오기
-    @GetMapping("/all/{socialId}")
-    public ResponseEntity<?> readAllWriterScript(@PathVariable("socialId") String socialId) {
+    @GetMapping("/all/{memberId}")
+    @Operation(summary = "특정 memberId의 사용자 스크립트 모두 가져오기", security = @SecurityRequirement(name = "bearer-key"))
+    public ResponseEntity<?> readAllWriterScript(@PathVariable("memberId") Long memberId) {
 
-        return scriptService.getWriterScriptContents(socialId);
+        return scriptService.getWriterScriptContents(memberId);
     }
 
     // 모든 script 갖고오기
     @GetMapping("/all")
+    @Operation(summary = "전체 스크립트 가져오기", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<?> readAllScript() {
 
         return scriptService.getAllScriptContents();

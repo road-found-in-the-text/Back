@@ -125,6 +125,8 @@ public class ScriptResponseDto {
             info.setScript_id(cur_script.getScriptId());
             info.setScript_title(cur_script.getTitle());
             info.setContent(cur_script.getParagraphs().get(0).getContents());
+            info.setCount_page(cur_script.getCnt());
+            info.setModified_date(cur_script.getModifiedDate());
 
             scripts.add(info);
         }

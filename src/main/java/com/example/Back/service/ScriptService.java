@@ -49,7 +49,7 @@ public class ScriptService {
         List<Paragraph> paragraphs_list = new ArrayList<Paragraph>();
 
         Script script=Script.builder()
-                // .memberId(script_member)
+                .memberId(script1.getMemberId())
                 .title(script1.getScript_title())
                 .cnt(cnt_list)
                 .deleted(false)
@@ -99,14 +99,14 @@ public class ScriptService {
 
     // 특정 사용자가 작성한 script 모두 갖고오기
     @Transactional(readOnly = true)
-    public ResponseEntity<?> getWriterScriptContents(String socialId) {
+    public ResponseEntity<?> getWriterScriptContents(Long memberId) {
         /*
         if (postRepository.checkPostId(postId)!=1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseTemplate<>(POST_NOT_FOUND));
         }
          */
-        // List<Script> res_list = scriptRepository.findBySocialId(socialId);
-        List<Script> res_list = scriptRepository.findAll();
+        List<Script> res_list = scriptRepository.findByMemberId(memberId);
+        // List<Script> res_list = scriptRepository.findAll();
         return scriptResponse.scriptAllSuccess(res_list);
     }
 

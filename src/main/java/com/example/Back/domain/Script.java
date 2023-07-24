@@ -28,9 +28,10 @@ public class Script extends BaseEntity {
     private Long scriptId;
 
     // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "member_id")
     // @JsonBackReference
-    // private Member memberId;
+    // @JoinColumn(name = "member_id")
+    @Column
+    private Long memberId;
 
     @Column
     private String title;
