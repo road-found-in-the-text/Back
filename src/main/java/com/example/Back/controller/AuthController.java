@@ -30,7 +30,6 @@ public class AuthController {
     }
 
     @PatchMapping("/logout")
-    @Operation(summary = "로그아웃", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<Void> logOut (Member member) {
         authMemberService.logout(member);
         return ResponseEntity.ok().build();
@@ -42,5 +41,4 @@ public class AuthController {
         authMemberService.withdrawl(member);
         return ResponseEntity.ok().build();
     }
-
 }
