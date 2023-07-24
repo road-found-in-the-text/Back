@@ -72,7 +72,7 @@ public class ScriptService {
         script.setParagraphs(paragraphs_list);
         scriptRepository.save(script);
 
-        return scriptResponse.scriptCreateSuccess(script);
+        return scriptResponse.scriptSuccess(script);
     }
 
 
@@ -105,7 +105,8 @@ public class ScriptService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseTemplate<>(POST_NOT_FOUND));
         }
          */
-        List<Script> res_list = scriptRepository.findBySocialId(socialId);
+        // List<Script> res_list = scriptRepository.findBySocialId(socialId);
+        List<Script> res_list = scriptRepository.findAll();
         return scriptResponse.scriptAllSuccess(res_list);
     }
 

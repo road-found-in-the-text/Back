@@ -2,8 +2,10 @@ package com.example.Back.dto.response;
 
 import com.example.Back.domain.Paragraph;
 import com.example.Back.domain.Script;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +22,7 @@ public class ScriptResponseDto {
 
         private String result;
 
-        private Long memberId;
+        // private Long memberId;
         private Long script_id;
         private String message;
 
@@ -31,13 +33,16 @@ public class ScriptResponseDto {
     private static class ScriptBody {
 
         private String result;
-
-        private Long memberId;
+        // private Long memberId;
         private Long script_id;
 
         private String script_title;
-        private int content_cnt;
         private List<ParagraphRes> content;
+        private int content_cnt;
+
+        // pattern = "dd-MM-yyyy hh:mm:ss a"
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd hh:mm:ss", timezone = "Asia/Seoul")
+        private LocalDateTime modifiedDate;
 
     }
 
@@ -103,7 +108,7 @@ public class ScriptResponseDto {
                 .content(contents)
                 // .paragraphList(script.getParagraphs())
                 // .createdDate(script.getCreatedDate())
-                // .modifiedDate(script.getModifiedDate())
+                .modifiedDate(script.getModifiedDate())
                 .build();
         return ResponseEntity.ok(body);
     }
@@ -118,6 +123,7 @@ public class ScriptResponseDto {
             ScriptRes info = new ScriptRes();
 
             info.setScript_id(cur_script.getScriptId());
+            info.setScript_title(cur_script.getTitle());
             info.setContent(cur_script.getParagraphs().get(0).getContents());
 
             scripts.add(info);
