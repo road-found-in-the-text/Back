@@ -23,7 +23,7 @@ import java.util.List;
 public class Script extends BaseEntity {
     // AUTO
     @Id                                              // Primary Key와 연결
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // 식별자 값을 자동 생성
+    @GeneratedValue(strategy = GenerationType.AUTO)  // 식별자 값을 자동 생성  // IDENTITY
     @Column(name="script_id")
     private Long scriptId;
 
