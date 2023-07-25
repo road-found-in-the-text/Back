@@ -10,6 +10,6 @@ public class AuthRes {
     private String refreshToken;
     private Boolean isNewMember;
     private Boolean userSettingDone;
-    private String social_id;
+    private Long userId;
 
 }
