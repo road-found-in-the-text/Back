@@ -1,5 +1,6 @@
 package com.example.Back.service;
 
+import com.example.Back.domain.Member;
 import com.example.Back.domain.Paragraph;
 import com.example.Back.domain.Script;
 import com.example.Back.dto.request.ParagraphReq;
@@ -8,9 +9,11 @@ import com.example.Back.dto.response.ParagraphRes;
 import com.example.Back.dto.response.ScriptResponseDto;
 import com.example.Back.repository.ParagraphRepository;
 import com.example.Back.repository.ScriptRepository;
+import com.example.Back.repository.SocialMemberRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +27,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ScriptService {
 
-    // @Autowired
-    // private final MemberRepository memberRepository;
+     @Autowired
+     private final SocialMemberRepository socialMemberRepository;
     @Autowired
     private final ScriptRepository scriptRepository;
     @Autowired
@@ -33,6 +36,7 @@ public class ScriptService {
 
     private final ScriptResponseDto scriptResponse;
 
+    private final TokenService tokenService;
 
     // private final MemoService memoService;
 
@@ -99,15 +103,20 @@ public class ScriptService {
 
     // 특정 사용자가 작성한 script 모두 갖고오기
     @Transactional(readOnly = true)
-    public ResponseEntity<?> getWriterScriptContents(Long memberId) {
-        /*
-        if (postRepository.checkPostId(postId)!=1) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseTemplate<>(POST_NOT_FOUND));
+    public ResponseEntity<?> getWriterScriptContents() {
+        String socialId = tokenService.getSocialId();
+        Optional<Member> optionalMember = socialMemberRepository.findMemberBySocialId(socialId);
+
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            Long memberId = member.getId();
+            List<Script> res_list = scriptRepository.findByMemberId(memberId);
+            // List<Script> res_list = scriptRepository.findAll();
+            return scriptResponse.scriptAllSuccess(res_list);
+        } else {
+            // Handle the case when the member with the given socialId is not found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Member not found");
         }
-         */
-        List<Script> res_list = scriptRepository.findByMemberId(memberId);
-        // List<Script> res_list = scriptRepository.findAll();
-        return scriptResponse.scriptAllSuccess(res_list);
     }
 
     // 모든 script 갖고오기

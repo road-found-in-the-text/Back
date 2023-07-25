@@ -71,7 +71,7 @@ public class AuthMemberService {
                 .isNewMember(isNewMember)
                 .accessToken(tokenService.getJwt())
                 .userSettingDone(isUserSettingDone)
-                .social_id(member.getSocialId())
+                .userId(member.getId())
                 .build();
     }
 
