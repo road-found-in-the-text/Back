@@ -46,7 +46,7 @@ public class ScriptController {
     }
 
     // 특정 사용자가 작성한 script 모두 갖고오기
-    @GetMapping("/all/{memberId}")
+    @GetMapping("/all/me")
     @Operation(summary = "특정 memberId의 사용자 스크립트 모두 가져오기", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<?> readAllWriterScript() {
 
