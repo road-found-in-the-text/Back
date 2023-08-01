@@ -23,7 +23,7 @@ public class AuthController {
     private final AuthMemberService authMemberService;
 
     @PostMapping("/login")
-    @Operation(summary = "로그인", security = @SecurityRequirement(name = "bearer-key"))
+    @Operation(summary = "로그인 및 회원가입", security = @SecurityRequirement(name = "bearer-key"))
     public ResponseEntity<AuthRes> getTokens(@RequestBody AuthReq authRequest) throws NoSuchAlgorithmException {
         AuthRes authResponse = authMemberService.signUpOrLogIn(authRequest);
         return ResponseEntity.ok(authResponse);

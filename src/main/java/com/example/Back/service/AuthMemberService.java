@@ -28,27 +28,22 @@ public class AuthMemberService {
     private final AppleService clientApple;
 
     public AuthRes signUpOrLogIn(AuthReq authRequest) throws NoSuchAlgorithmException {
+        Member member;
+        if (authRequest.getLoginType() == LoginType.KAKAO) {
+            member = getKakaoProfile(authRequest.getAccessToken());
+        } else {
+            member = getAppleProfile(authRequest.getAccessToken());
+        }
 
-        Member member = socialMemberRepository.findBySocialId(tokenService.getSocialId())
-                .orElseThrow(() -> new IllegalArgumentException("해당하는 멤버를 찾을 수 없습니다."));
-        //최초 회원가입 시
+        Token token = tokenService.generateToken(member.getSocialId(), "USER");
+
+        System.out.println("accessToken!!!!");
+        System.out.println(token.getAccessToken());
         boolean isNewMember = false;
         boolean isUserSettingDone = false;
 
-
-        if (tokenService.getSocialId().equals(Optional.empty()) || socialMemberRepository.findBySocialId(member.getSocialId()).equals(Optional.empty())) {
-            if (authRequest.getLoginType() == LoginType.KAKAO) {
-                member = getKakaoProfile(authRequest.getAccessToken());
-            } else {
-                member = getAppleProfile(authRequest.getAccessToken());
-            }
-
-            Token token = tokenService.generateToken(member.getSocialId(), "USER");
-
-            System.out.println("accessToken!!!!");
-            System.out.println(token.getAccessToken());
-
-
+        //최초 회원가입 시
+        if (socialMemberRepository.findBySocialId(member.getSocialId()).equals(Optional.empty())) {
             member.setTier(Tier.Bronze);
             member.setIntroduction("안녕하세요.");
             socialMemberRepository.save(member);
@@ -59,7 +54,7 @@ public class AuthMemberService {
 
             isNewMember = true;
         } else {
-            Optional<Member> currentUser = socialMemberRepository.findBySocialId(tokenService.getSocialId());
+            Optional<Member> currentUser = socialMemberRepository.findBySocialId(member.getSocialId());
 
             Member thisUser = currentUser.get();
             if(thisUser.getNickName() != null){
@@ -69,12 +64,10 @@ public class AuthMemberService {
 
         return AuthRes.builder()
                 .isNewMember(isNewMember)
-                .accessToken(tokenService.getJwt())
+                .accessToken(token.getAccessToken())
                 .userSettingDone(isUserSettingDone)
-                .userId(member.getId())
                 .build();
     }
-
     public Member getKakaoProfile(String oauthToken) {
         Member kakaoUser = clientKakao.getMemberData(oauthToken);
         System.out.println("getKakao");
