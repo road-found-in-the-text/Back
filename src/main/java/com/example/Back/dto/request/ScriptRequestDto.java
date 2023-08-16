@@ -12,10 +12,6 @@ public class ScriptRequestDto {
     @Getter
     @Setter
     public static class Register {
-
-        // @NotNull(message = "member id는 필수 입력값입니다.")
-        private Long memberId;
-
         @NotNull(message = "title은 필수 입력값입니다.")
         private String script_title;
 

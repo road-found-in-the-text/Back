@@ -45,6 +45,9 @@ public class ScriptService {
 
 
     public ResponseEntity<?> writeScript(ScriptRequestDto.Register script1) {
+        String socialId = tokenService.getSocialId();
+        Optional<Member> optionalMember = socialMemberRepository.findMemberBySocialId(socialId);
+        Long memberId = optionalMember.get().getId();
 
         // Member script_member=memberRepository.getUser(script1.getMemberId());
         ArrayList<ParagraphReq> contents = script1.getContents();
@@ -53,7 +56,7 @@ public class ScriptService {
         List<Paragraph> paragraphs_list = new ArrayList<Paragraph>();
 
         Script script=Script.builder()
-                .memberId(script1.getMemberId())
+                .memberId(memberId)
                 .title(script1.getScript_title())
                 .cnt(cnt_list)
                 .deleted(false)
