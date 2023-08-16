@@ -3,13 +3,16 @@ package com.example.Back.service;
 
 import com.example.Back.domain.*;
 import com.example.Back.dto.request.AuthReq;
+import com.example.Back.dto.request.UpdateMypageReq;
 import com.example.Back.dto.response.AuthRes;
 import com.example.Back.dto.response.MemberRes;
+import com.example.Back.dto.response.UpdateMypageRes;
 import com.example.Back.repository.SocialMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,6 +93,18 @@ public class AuthMemberService {
         socialMemberRepository.save(member);
     }
 
+
+    public UpdateMypageRes updateProfile(UpdateMypageReq updateMypageReq) {
+            String nickName = updateMypageReq.getNickname();
+            String introduction = updateMypageReq.getIntroduction();
+            String memberId = tokenService.getSocialId();
+            updateNickName(memberId, nickName);
+            updateIntroduction(memberId,introduction);
+            UpdateMypageRes updateMypageRes = new UpdateMypageRes(nickName, introduction);
+            return updateMypageRes;
+    }
+
+
     public void updateNickName(String memberId, String updateNickname) {
         Member member = socialMemberRepository.findBySocialId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 멤버를 찾을 수 없습니다."));
@@ -99,6 +114,12 @@ public class AuthMemberService {
     }
 
 
+    public void updateIntroduction(String memberId, String updateIntro ){
+        Member member = socialMemberRepository.findBySocialId(memberId)
+            .orElseThrow(() -> new IllegalArgumentException("해당하는 멤버를 찾을 수 없습니다."));
+        member.setIntroduction(updateIntro);
+        socialMemberRepository.save(member);
+    }
     public MemberRes getMemberInfo(String memberId) {
         Member member = socialMemberRepository.findBySocialId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 멤버를 찾을 수 없습니다."));

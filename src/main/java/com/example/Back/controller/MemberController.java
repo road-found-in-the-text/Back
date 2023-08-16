@@ -2,8 +2,10 @@ package com.example.Back.controller;
 
 import com.example.Back.domain.CurrentUser;
 import com.example.Back.domain.Member;
+import com.example.Back.dto.request.UpdateMypageReq;
 import com.example.Back.dto.request.UpdateNickNameReq;
 import com.example.Back.dto.response.MemberRes;
+import com.example.Back.dto.response.UpdateMypageRes;
 import com.example.Back.service.AuthMemberService;
 import com.example.Back.service.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,17 +29,11 @@ public class MemberController {
         this.authMemberService = authMemberService;
     }
 
-    @PutMapping("/nickname") @ResponseBody
-    @Operation(summary = "닉네임 변경", security = @SecurityRequirement(name = "bearer-key"))
-    public ResponseEntity<String> updateUserNickname (@RequestBody UpdateNickNameReq updateNickNameReq) {
-        try {
-            String nickName = updateNickNameReq.getNickname();
-            String memberId = tokenService.getSocialId();
-            authMemberService.updateNickName(memberId, nickName);
-            return ResponseEntity.ok(nickName);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @PutMapping("/profile") @ResponseBody
+    @Operation(summary = "닉네임 및 자기소개 변경", security = @SecurityRequirement(name = "bearer-key"))
+    public ResponseEntity<UpdateMypageRes> updateUserNickname (@RequestBody UpdateMypageReq updateMypageReq) {
+        UpdateMypageRes updateMypageRes = authMemberService.updateProfile(updateMypageReq);
+        return ResponseEntity.ok(updateMypageRes);
     }
 
     @PostMapping("/nickname") @ResponseBody
